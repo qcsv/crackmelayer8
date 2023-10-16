@@ -5,8 +5,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <b64/cencode.h>
 #define MAXINPUT 32
+
+void base64_encode_wrapper(const char* input, char* output) {
+    base64_encodestate state;
+    base64_init_encodestate(&state);
+    int length = strlen(input);
+
+    // Encode the input block by block
+    int encoded_length = base64_encode_block(input, length, output, &state);
+    
+    // Complete the encoding
+    encoded_length += base64_encode_blockend(output + encoded_length, &state);
+    
+    // Null-terminate the encoded string
+    output[encoded_length] = '\0';
+}
+
+
+
+
 int 
 main(void)
 {
@@ -20,7 +39,9 @@ main(void)
 	
 	
 	getline(&buffer, &bufsize, stdin);
-
+	char encoded_input[MAXINPUT * 2];  // Adjust the size accordingly
+    	base64_encode_wrapper(buffer, encoded_input);
+	printf("%s\n", encoded_input);
 	if (!strncmp(buffer, not_the_password, MAXINPUT))
 	{
 		printf("Correct Password!\n");
