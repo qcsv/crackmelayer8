@@ -9,6 +9,8 @@
 #include <b64/cdecode.h>
 #define MAXINPUT 32
 
+
+//TODO strip newline from getline for comparison
 void 
 base64_encode_wrapper(const char* input, char* output) 
 {
