@@ -24,46 +24,43 @@ base64_encode_wrapper(const char* input, char* output)
     // Complete the encoding
     encoded_length += base64_encode_blockend(output + encoded_length, &state);
     
+    if (encoded_length > 0 && output[encoded_length - 1] == '\n') {
+        output[encoded_length - 1] = '\0';
+        encoded_length--;
+    }
+
     // Null-terminate the encoded string
     output[encoded_length] = '\0';
 }
 
 
 
-void 
-base64_decode_wrapper(const char* input, char* output)
-{
-base64_decodestate state;
-base64_init_decodestate(&state);
-int length = strlen(input);
-int decoded_length = base64_decode_block(input, length, output, &state);
-decoded_length= base64_decode_block(input, length, output, &state);
-output[decoded_length] = '\0';
-}
-
 
 int 
 main(void)
 {
-	//Getline includes the newline character so this is a hacky workaround for now
-	//Ideally this password will be stored in something other than plaintext
-	char* not_the_password = "Q2FudEhhY2tNeUxheWVyRWlnaHQK";
+	char* not_the_password = "dGVzdAo=";
 	char* buffer;
 	size_t bufsize = MAXINPUT;
 	buffer = malloc(bufsize * sizeof(char));
 	printf("Enter password: ");
 	
 	
-	getline(&buffer, &bufsize, stdin);
-	char encoded_input[MAXINPUT * 2];  // Adjust the size accordingly
-	char decoded_output[MAXINPUT * 2];
-    	base64_encode_wrapper(buffer, encoded_input);
+//	getline(&buffer, &bufsize, stdin);
+        ssize_t input_length = getline(&buffer, &bufsize, stdin);
+	input_length++;//noop
 
-	base64_decode_wrapper(not_the_password, decoded_output);
+    if (input_length > 0 && buffer[input_length - 1] == '\n') {
+        buffer[input_length - 1] = '\0';
+        input_length--;
+    }
 
-	printf("%s\n", encoded_input);
-	printf("%s\n", decoded_output);
-	if (!strncmp(encoded_input, decoded_output, MAXINPUT))
+    char encoded_input[MAXINPUT * 2];  // Adjust the size accordingly
+    base64_encode_wrapper(buffer, encoded_input);
+
+
+//debug	printf("E:%s", encoded_input);
+	if (!strncmp(encoded_input, not_the_password, MAXINPUT))
 	{
 		printf("Correct Password!\n");
 		exit(EXIT_SUCCESS);
