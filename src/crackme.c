@@ -1,6 +1,5 @@
 //crackme.c
 //basic layer eight reverse engineering introduction
-
 #define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +9,6 @@
 #define MAXINPUT 32
 
 
-//TODO strip newline from getline for comparison
 void 
 base64_encode_wrapper(const char* input, char* output) 
 {
@@ -24,6 +22,7 @@ base64_encode_wrapper(const char* input, char* output)
     // Complete the encoding
     encoded_length += base64_encode_blockend(output + encoded_length, &state);
     
+//remove newline character?? hack
     if (encoded_length > 0 && output[encoded_length - 1] == '\n') {
         output[encoded_length - 1] = '\0';
         encoded_length--;
@@ -46,9 +45,7 @@ main(void)
 	printf("Enter password: ");
 	
 	
-//	getline(&buffer, &bufsize, stdin);
         ssize_t input_length = getline(&buffer, &bufsize, stdin);
-	input_length++;//noop
 
     if (input_length > 0 && buffer[input_length - 1] == '\n') {
         buffer[input_length - 1] = '\0';
