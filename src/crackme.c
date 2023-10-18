@@ -56,6 +56,15 @@ main(void)
 			getline(&riddlein, &bufsize, stdin);
 			if (!strncasecmp(riddlein, "interlinked\n", MAXINPUT))
 			{
+			printf("You get a strange feeling that you might be doing something too early...\n\n");
+			file = fopen("../l0rdh3ck3r/pass.txt", "r");
+			while (1)
+			{
+				display = fgetc(file);
+				if (feof(file))
+					break;
+				printf("%c", display);
+			}
 				printf("\"We're done... Layer 8, you can pick up your bonus.\"\n");
 				exit(EXIT_FAILURE);
 			}
