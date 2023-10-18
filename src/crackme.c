@@ -33,12 +33,12 @@ base64_encode_wrapper(const char* input, char* output)
 }
 
 
-
-
 int 
 main(void)
 {
-	char* not_the_password = "dGVzdAo=";
+	FILE* file;
+	int display;
+	char* not_the_password = "Q2FudEhhY2tNeUxheWVyRWlnaHQ=";
 	char* buffer;
 	size_t bufsize = MAXINPUT;
 	buffer = malloc(bufsize * sizeof(char));
@@ -60,7 +60,16 @@ main(void)
 	if (!strncmp(encoded_input, not_the_password, MAXINPUT))
 	{
 		printf("Correct Password!\n");
+		file = fopen("../l0rdh3ck3r/info.txt", "r");
+		while (1)
+		{
+			display = fgetc(file);
+			if (feof(file))
+				break;
+			printf("%c", display);
+		}
 		exit(EXIT_SUCCESS);
+
 	}
 	else
 	{
