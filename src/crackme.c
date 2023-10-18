@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <b64/cencode.h>
 #include <b64/cdecode.h>
 #define MAXINPUT 32
@@ -40,7 +41,39 @@ main(void)
 	int display;
 	char* not_the_password = "Q2FudEhhY2tNeUxheWVyRWlnaHQ=";
 	char* buffer;
+	char* riddlein;
 	size_t bufsize = MAXINPUT;
+	riddlein = malloc(bufsize * sizeof(char));
+	printf("Do you feel that there's a part of you that's missing? Interlinked.\n");
+	getline(&riddlein, &bufsize, stdin);
+	if (!strncasecmp(riddlein, "interlinked\n", MAXINPUT))
+	{
+		printf("When you're not performing your duties do they keep you in a little box? Cells.\n");
+		getline(&riddlein, &bufsize, stdin);
+		if (!strncasecmp(riddlein, "cells\n", MAXINPUT))
+		{
+			printf("What's it like to hold the hand of someone you love? Interlinked.\n");
+			getline(&riddlein, &bufsize, stdin);
+			if (!strncasecmp(riddlein, "interlinked\n", MAXINPUT))
+			{
+				printf("\"We're done... Layer 8, you can pick up your bonus.\"\n");
+				exit(EXIT_FAILURE);
+			}
+			else
+			{
+				printf("You're not even close to baseline.\n");
+				exit(EXIT_FAILURE);
+			}
+	}
+		else
+		{
+				printf("You're not even close to baseline.\n");
+				exit(EXIT_FAILURE);
+		}
+	}
+
+	else if (!strncasecmp(riddlein, "OVERRIDE\n", MAXINPUT))
+	{
 	buffer = malloc(bufsize * sizeof(char));
 	printf("Enter password: ");
 	
@@ -56,7 +89,7 @@ main(void)
     base64_encode_wrapper(buffer, encoded_input);
 
 
-//debug	printf("E:%s", encoded_input);
+//printf("E:%s", encoded_input);
 	if (!strncmp(encoded_input, not_the_password, MAXINPUT))
 	{
 		printf("Correct Password!\n");
@@ -76,6 +109,19 @@ main(void)
 		printf("INCORRECT PASSWORD!\n");
 		exit(EXIT_FAILURE);
 	}
+	}
+	
+	//false prompt
+	else 
+	{
+		printf("Enter password: ");
+        	getline(&buffer, &bufsize, stdin);
+		printf("You're not even close to baseline.\n");
+		printf("INCORRECT PASSWORD!\n");
+		exit(EXIT_FAILURE);
+	}
+
+
 	fprintf(stderr, "Reached end of program");
 	return 0;
 }
