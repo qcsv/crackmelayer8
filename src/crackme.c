@@ -83,24 +83,25 @@ main(void)
 
 	else if (!strncasecmp(riddlein, "OVERRIDE\n", MAXINPUT))
 	{
-	buffer = malloc(bufsize * sizeof(char));
+		buffer = malloc(bufsize * sizeof(char));
 	printf("Enter password: ");
 	
 	
-        ssize_t input_length = getline(&buffer, &bufsize, stdin);
+        	ssize_t input_length = getline(&buffer, &bufsize, stdin);
 
-    if (input_length > 0 && buffer[input_length - 1] == '\n') {
-        buffer[input_length - 1] = '\0';
-        input_length--;
-    }
+		if (input_length > 0 && buffer[input_length - 1] == '\n') 
+    		{
+		buffer[input_length - 1] = '\0';
+		input_length--;
+		}
 
     char encoded_input[MAXINPUT * 2];  // Adjust the size accordingly
     base64_encode_wrapper(buffer, encoded_input);
 
 
 //printf("E:%s", encoded_input);
-	if (!strncmp(encoded_input, not_the_password, MAXINPUT))
-	{
+		if (!strncmp(encoded_input, not_the_password, MAXINPUT))
+		{
 		printf("Correct Password!\n");
 		file = fopen("../l0rdh3ck3r/info.txt", "r");
 		while (1)
@@ -112,12 +113,13 @@ main(void)
 		}
 		exit(EXIT_SUCCESS);
 
-	}
-	else
-	{
+		}
+		else
+		{
 		printf("INCORRECT PASSWORD!\n");
 		exit(EXIT_FAILURE);
-	}
+		}
+	
 	}
 	
 	//false prompt
@@ -132,5 +134,5 @@ main(void)
 
 
 	fprintf(stderr, "Reached end of program");
-	return 0;
+	exit(EXIT_FAILURE);
 }
