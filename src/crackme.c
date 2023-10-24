@@ -83,6 +83,7 @@ main(void)
 
 	else if (!strncasecmp(riddlein, "OVERRIDE\n", MAXINPUT))
 	{
+		printf("Override key accepted.\n");
 		buffer = malloc(bufsize * sizeof(char));
 	printf("Enter password: ");
 	
@@ -125,9 +126,9 @@ main(void)
 	//false prompt
 	else 
 	{
+		printf("You're not even close to baseline.\n");
 		printf("Enter password: ");
         	getline(&buffer, &bufsize, stdin);
-		printf("You're not even close to baseline.\n");
 		printf("INCORRECT PASSWORD!\n");
 		exit(EXIT_FAILURE);
 	}
